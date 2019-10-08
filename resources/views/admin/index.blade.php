@@ -3,6 +3,7 @@
 @section('content')
 <h3>Listagem de Clientes</h3>
 <br/>
+<a  class="btn btn-primary" href="{{ route('clients.create') }}">Cadastrar</a>
 <table class="table table-dark">
     <thead class="thead-dark">
     <tr>
@@ -27,6 +28,9 @@
             <td>{{ $client->email }}</td>
             <td>{{ $client->phone}}</td>
             <td>{{ $client->sex}}</td>
+            <td>
+                <a href="{{ route('clients.edit',['$client' => $client->id]) }}">Editar</a>
+            </td>
         </tr>
     @endforeach
     </tbody>
