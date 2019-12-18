@@ -1,4 +1,5 @@
 {{ csrf_field() }}
+<input type="hidden" name="client_type" value="{{$clientType}}">
 <div class="form-group">
     <label for="name">Nome</label>
     <input type="text" class="form-control" id="name" name="name" value="{{old('name',$client->name)}}">
@@ -21,10 +22,10 @@
 </div>
 
 <div class="form-group">
-
-@php
-    $maritalStatus = $client->marital_status;
-@endphp
+@if($clientType == \App\Client::TYPE_INDIVIDUAL)
+    @php
+        $maritalStatus = $client->marital_status;
+    @endphp
 
     <label for="marital_status" >Estado Civil</label>
     <select class="form-control" id="marital_status" name="marital_status" >
@@ -34,25 +35,30 @@
         <option value="3" {{old('marital_Status',$maritalStatus) == 3?'selected="selected"':''}}>Divorciado</option>
     </select>
 
-</div>
+    </div>
 
-<div class="custom-radio">
-    <label for="">
-        <input type="radio" name="sex" value="m" {{old('sex',$client->sex) == 'm'?'checked="checked"':''}}>Masculino
+    <div class="custom-radio">
+        <label for="">
+            <input type="radio" name="sex" value="m" {{old('sex',$client->sex) == 'm'?'checked="checked"':''}}>Masculino
+        </label>
+    </div>
+
+    <div class="custom-radio">
+        <label for="">
+            <input type="radio" name="sex" value="f" {{old('sex',$client->sex) == 'f'?'checked="checked"':''}}>Feminino
     </label>
-</div>
+    </div>
 
-<div class="custom-radio">
-    <label for="">
-        <input type="radio" name="sex" value="f" {{old('sex',$client->sex) == 'f'?'checked="checked"':''}}>Feminino
-    </label>
-</div>
-
-<div class="form-group">
-    <label for="physical_disability">Deficiência Física</label>
-    <input class="form-control" id="physical_disability" value="{{old('physical_disability',$client->physical_disability)}}">
-</div>
-
+    <div class="form-group">
+        <label for="physical_disability">Deficiência Física</label>
+        <input class="form-control" id="physical_disability" value="{{old('physical_disability',$client->physical_disability)}}">
+    </div>
+@else
+    <div class="form-group">
+        <label for="company_name">Nome Fantasia</label>
+        <input class="form-control" name="company_name" value="{{old('company_name',$client->company_name)}}">
+    </div>
+@endif
 <div class="custom-checkbox">
     <label>
         <input type="checkbox" id="defaulter" {{old('defaulter',$client->defaulter)?'checked="checked"':''}}>Inadimplente?
