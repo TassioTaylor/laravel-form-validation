@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Code\Validator\Cnpj;
 use Code\Validator\Cpf;
+use function foo\func;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+       $this->app->singleton(\Faker\Generator::class, function (){
+           return \Faker\Factory::create('pt_Br');
+       });
     }
 
     /**

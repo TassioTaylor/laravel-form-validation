@@ -8,10 +8,8 @@ use Faker\Generator as Faker;
 require_once __DIR__ . '/../faker_data/document_number.php' ;
 
 $factory->define(Client::class, function (Faker $faker) {
-    $cpfs = cpfs();
     return [
         'name' => $faker->name,
-
         'email' => $faker->email,
         'phone' => $faker->phoneNumber,
         'defaulter' => rand(0, 1),

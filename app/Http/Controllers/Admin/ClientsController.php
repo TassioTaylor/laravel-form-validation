@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Client;
+use App\Http\Requests\ClientRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,6 +17,7 @@ class ClientsController extends Controller
     public function index()
     {
         $clients = \App\Client::all();
+        \Session::flash('chave','valor');
         return view('admin.index', compact('clients'));
     }
 
@@ -36,14 +38,14 @@ class ClientsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        $this->_validate($request);
+        $data = $request ->only($request->rules());
         $data = $request->all();
         $data['defaulter'] = $request->has('defaulter');
         $data['client_type'] = Client::getClientType($request->client_type);
         Client::create($data);
-        return redirect()->to('/admin/clients');
+        return redirect()->to('/admin/clients')->with('message','Cliente cadastrador com sucesso');
     }
 
     /**
@@ -63,7 +65,7 @@ class ClientsController extends Controller
      * @param  int $client
      * @return \Illuminate\Http\Response
      */
-    public function edit(Client $client)
+    public function edit(Client $client)//Route Model Bindging Implicito
     {
         $clientType = $client->client_type;
         return view('admin.edit', compact('client','clientType'));
@@ -76,16 +78,16 @@ class ClientsController extends Controller
      * @param  int  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Client $client)
+    public function update(ClientRequest $request,Client $client)
     {
 
        // $client = Client::findOrFail($client);
-        $this->_validate($request);
+        $data = $request ->only($request->rules());
         $data = $request->all();
         $data['defaulter'] = $request->has('defaulter');
         $client->fill($data);
         $client->save();
-        return redirect()->route('clients.index');
+        return redirect()->route('clients.index')->with('message','Cliente alterado com sucesso');
     }
 
     /**
@@ -101,30 +103,5 @@ class ClientsController extends Controller
 
     }
 
-    protected function _validate(Request $request){
 
-        $clientType = Client::getClientType($request->client_type);
-        $documentNumberType = $clientType == client::TYPE_INDIVIDUAL ? 'cpf': 'cnpj';
-        $client = $request->route('client');
-        $clientId =  $client instanceof client ? $client->id: null;
-        $rules =[
-            'name' => 'required|max:255',
-            'document_number' => "required|unique:clients,document_number,$clientId|document_number:$documentNumberType",
-            'email' => 'required|email',
-            'phone' => 'required',
-        ];
-        $maritalStatus = implode(',',array_keys(Client::MARITAL_STATUS));
-        $rulesIndividual = [
-            'marital_status' => "required|in:$maritalStatus",
-            'date_birth' => 'date',
-            'sex' => 'required|in:m,f',
-            'physical_disability' => 'max:255'
-
-        ];
-        $rulesLegal = [
-            'company_name' => 'required|max:255'
-        ];
-        $this->validate($request, $clientType == Client::TYPE_INDIVIDUAL ?
-            $rules + $rulesIndividual : $rules + $rulesLegal);
-    }
 }
