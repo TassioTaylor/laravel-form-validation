@@ -8,10 +8,10 @@
 
 @include('form._form_errors')
 
-    <form method="POST" action="{{ route('clients.store') }}">
-        {{ csrf_field() }}
+    <!--<form method="POST" action="{{ route('clients.store') }}"> -->
+    {{{ Form::open(['route' => 'clients.store']) }}}
         @include('admin._form')
         <button type="submit" class="btn btn-default">Enviar</button>
-    </form>
+    {{ Form::close() }}
 
 @endsection

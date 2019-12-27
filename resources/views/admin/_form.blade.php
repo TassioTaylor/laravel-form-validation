@@ -1,24 +1,26 @@
-{{ csrf_field() }}
 <input type="hidden" name="client_type" value="{{$clientType}}">
 <div class="form-group">
-    <label for="name">Nome</label>
-    <input type="text" class="form-control" id="name" name="name" value="{{old('name',$client->name)}}">
+    {{ Form::label('name', 'Nome') }}
+    {{ Form::text('name',null,['class' => 'form-control'] )}}
+   <!-- <label for="name">Nome</label>
+    <input type="text" class="form-control" id="name" name="name" value="{{old('name',$client->name)}}"> -->
 </div>
 <div class="form-group">
-    <label for="document_number">CNPJ/CGC</label>
-    <input type="text" class="form-control" id="document_number" name="document_number" value="{{old('document_number',$client->document_number)}}">
+    {{ Form::label('document_number', 'CNPJ/CGC') }}
+    {{ Form::text('document_number',null,['class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <label for="data_birth">Data Nasc.</label>
-    <input type="date" class="form-control" id="data_birth" name="data_birth" value="{{old('data_birth',$client->date_birth)}}">
+    {{ Form::label('date_birth', 'Data de Nascimento') }}
+    {{ Form::date('date_birth',null,['class' => 'form-control']) }}
 </div>
 <div class="form-group">
-    <label for="email">E-mail</label>
-    <input type="email" class="form-control" id="email" name="email" value="{{old('email',$client->email)}}">
+    {{ Form::label('email', 'E-mail') }}
+    {{ Form::email('email',null,['class' => 'form-control' ])}}
+
 </div>
 <div class="form-group">
-    <label for="">Telefone</label>
-    <input type="text" class="form-control" id="phone" name="phone" placeholder="Telefone" value="{{old('phone',$client->phone)}}">
+    {{ Form::label('phone', 'Telefone') }}
+    {{ Form::email('phone',null,['class' => 'form-control' ])}}
 </div>
 
 <div class="form-group">
@@ -26,41 +28,50 @@
     @php
         $maritalStatus = $client->marital_status;
     @endphp
-
-    <label for="marital_status" >Estado Civil</label>
+    {{ Form::label('marital_status', 'Estado Civil') }}
+    {{ Form::select('marital_status', [
+         1 => 'Solteiro',
+         2 => 'Casado',
+         3 => 'Divorciado'
+         ],null,['class' => 'form-control'])
+         }}
+    <!--<label for="marital_status" >Estado Civil</label>
     <select class="form-control" id="marital_status" name="marital_status" >
         <option value="" >Escolher...</option>
         <option value="1" {{old('marital_Status',$maritalStatus) == 1?'selected="selected"':''}}>Solteiro</option>
         <option value="2" {{old('marital_Status',$maritalStatus) == 2?'selected="selected"':''}}>Casado</option>
         <option value="3" {{old('marital_Status',$maritalStatus) == 3?'selected="selected"':''}}>Divorciado</option>
     </select>
-
+    -->
     </div>
 
     <div class="custom-radio">
         <label for="">
-            <input type="radio" name="sex" value="m" {{old('sex',$client->sex) == 'm'?'checked="checked"':''}}>Masculino
+            {{ Form::radio('sex','m')}}Masculino
         </label>
     </div>
 
     <div class="custom-radio">
         <label for="">
-            <input type="radio" name="sex" value="f" {{old('sex',$client->sex) == 'f'?'checked="checked"':''}}>Feminino
-    </label>
+            {{ Form::radio('sex','f')}}Feminino
+            <!--<input type="radio" name="sex" value="f" {{old('sex',$client->sex) == 'f'?'checked="checked"':''}}>-->
+        </label>
     </div>
 
     <div class="form-group">
-        <label for="physical_disability">Deficiência Física</label>
-        <input class="form-control" id="physical_disability" value="{{old('physical_disability',$client->physical_disability)}}">
+        {{ Form::label('physical_disability', 'Deficiência Física') }}
+        {{ Form::text('physical_disability',null,['class' => 'form-control' ])}}
     </div>
 @else
     <div class="form-group">
         <label for="company_name">Nome Fantasia</label>
-        <input class="form-control" name="company_name" value="{{old('company_name',$client->company_name)}}">
+        <input class="form-control" name="company_name" value=null>
     </div>
 @endif
 <div class="custom-checkbox">
     <label>
-        <input type="checkbox" id="defaulter" {{old('defaulter',$client->defaulter)?'checked="checked"':''}}>Inadimplente?
+        {{ Form::checkbox('defaulter',1,null )}}Inadimplente
+        <!--<input type="checkbox" id="defaulter" {{old('defaulter',$client->defaulter)?'checked="checked"':''}}>Inadimplente? -->
     </label>
 </div>
+

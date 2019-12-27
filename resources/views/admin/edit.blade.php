@@ -10,10 +10,11 @@
         </ul>
     @endif
 
-    <form method="POST" action="{{ route('clients.update',['client' => $client->id]) }}">
+    <!--<form method="POST" action="{{ route('clients.update',['client' => $client->id]) }}"> -->
+    {{ Form::model($client,['route' =>['clients.update',$client->id] ]) }}
         {{method_field('PUT')}}
         @include('admin._form')
         <button type="submit" class="btn btn-default">Salvar</button>
-    </form>
+    {{ Form::close() }}
 
 @endsection
