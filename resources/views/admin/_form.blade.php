@@ -1,34 +1,38 @@
 <input type="hidden" name="client_type" value="{{$clientType}}">
-<div class="form-group">
-    {{ Form::label('name', 'Nome') }}
+@component('form._form_group', ['field' => 'name'])
+    {{ Form::label('name', 'Nome',['class' => 'control-label']) }}
     {{ Form::text('name',null,['class' => 'form-control'] )}}
    <!-- <label for="name">Nome</label>
     <input type="text" class="form-control" id="name" name="name" value="{{old('name',$client->name)}}"> -->
-</div>
-<div class="form-group">
-    {{ Form::label('document_number', 'CNPJ/CGC') }}
+@endcomponent
+
+@component('form._form_group', ['field' => 'document_number'])
+    {{ Form::label('document_number', 'CNPJ/CGC', ['class' => 'control-label']) }}
     {{ Form::text('document_number',null,['class' => 'form-control']) }}
-</div>
-<div class="form-group">
-    {{ Form::label('date_birth', 'Data de Nascimento') }}
+@endcomponent
+
+@component('form._form_group', ['field' => 'date_birth'])
+    {{ Form::label('date_birth', 'Data de Nascimento', ['class' => 'control-label']) }}
     {{ Form::date('date_birth',null,['class' => 'form-control']) }}
-</div>
-<div class="form-group">
-    {{ Form::label('email', 'E-mail') }}
+@endcomponent
+
+@component('form._form_group', ['field' => 'email'])
+    {{ Form::label('email', 'E-mail', ['class' => 'control-label']) }}
     {{ Form::email('email',null,['class' => 'form-control' ])}}
+@endcomponent
 
-</div>
-<div class="form-group">
-    {{ Form::label('phone', 'Telefone') }}
+@component('form._form_group', ['field' => 'phone'])
+    {{ Form::label('phone', 'Telefone', ['class' => 'control-label']) }}
     {{ Form::email('phone',null,['class' => 'form-control' ])}}
-</div>
+@endcomponent
 
-<div class="form-group">
+
 @if($clientType == \App\Client::TYPE_INDIVIDUAL)
     @php
         $maritalStatus = $client->marital_status;
     @endphp
-    {{ Form::label('marital_status', 'Estado Civil') }}
+    @component('form._form_group', ['field' => 'marital_status'])
+    {{ Form::label('marital_status', 'Estado Civil',['class' => 'control-label']) }}
     {{ Form::select('marital_status', [
          1 => 'Solteiro',
          2 => 'Casado',
@@ -43,7 +47,7 @@
         <option value="3" {{old('marital_Status',$maritalStatus) == 3?'selected="selected"':''}}>Divorciado</option>
     </select>
     -->
-    </div>
+    @endcomponent
 
     <div class="custom-radio">
         <label for="">

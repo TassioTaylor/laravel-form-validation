@@ -22,7 +22,7 @@
         </tr>
         <tr>
             <th scope="row">Documento</th>
-            <td>{{$client->document_number}}</td>
+            <td>{{$client->document_number_formatted}}</td>
         </tr>
         <tr>
             <th scope="row">E-mail</th>
@@ -50,11 +50,11 @@
         </tr>
         <tr>
             <th scope="row">Data Nasc.</th>
-            <td>{{$client->date_birth}}</td>
+            <td>{{$client->date_birth_formatted}}</td>
         </tr>
         <tr>
             <th scope="row">Sexo</th>
-            <td>{{$client->sex=='m'?'Masculino':'Feminino'}}</td>
+            <td>{{$client->sex_formatted}}</td>
         </tr>
         <tr>
             <th scope="row">Def. Física</th>
